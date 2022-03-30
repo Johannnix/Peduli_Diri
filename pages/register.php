@@ -116,12 +116,12 @@
                 <?php } ?>
                 <div class="form-group px-2">
                     <label for="nik">NIK</label>
-                    <input minlength="16" maxlength="16" type="text" value="" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
+                    <input minlength="16" maxlength="16" placeholder="Masukkan dengan angka" type="text" value="" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
                     <div class="m-1 text-danger text-small">*harap cantumkan nik yang benar!</div>
                   </div>              
                   <div class="form-group px-2 pt-4">
                     <label for="nama">Nama Lengkap</label>
-                    <input type="name" value="" class="form-control form" name="nama" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
+                    <input type="name" value="" placeholder="Masukkan dengan huruf" class="form-control form" name="nama" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                   </div>
                   <div class="form-group px-2 pt-4">
                     <label for="jenkel">Jenis Kelamin</label>
@@ -133,10 +133,10 @@
                   </div>
                   <div class="form-group px-2 pt-4 has-error">
                     <label for="alamat">Alamat</label>
-                    <input type="text" value="" class="form-control form" name="alamat" autofocus="" required="" autocomplete="off"></input>
+                    <input type="text" value="" placeholder="Masukkan alamat" class="form-control form" name="alamat" autofocus="" required="" autocomplete="off"></input>
                   </div>
                   <div class="form-group text-center pt-4">
-                    <button type="submit" name="submit" class="btn btn-primary button btn-lg col-6">Daftar</button>
+                    <button onclick="return confirm('Apakah data Anda sudah benar ?')" type="submit" name="submit" class="btn btn-primary button btn-lg col-6">Daftar</button>
                   </div>
                 </form>
                 <div class="text-center pt-4">

@@ -213,6 +213,11 @@ span.color {
   padding: 4.8px 12.8px !important;
 }
 
+.btn-secondary:hover {
+  background-color: #bfc6cd !important;
+  color: #fff !important;
+}
+
 .buttons-copy {
   background-color: #666666 !important;
 }
@@ -235,6 +240,11 @@ span.color {
 
 .keluar {
   background-color: #6777ef !important;
+}
+
+.keluar:hover {
+  background-color: #bfc6cd !important;
+  color: #fff !important;
 }
 
 .logout {
@@ -353,4 +363,8 @@ ol {
   padding-top: 0px;
   line-height: 27px;
   color: #ffff;
+}
+
+.modal-atas {
+  padding: 16px 16px;
 }
