@@ -4,6 +4,7 @@
 
   include '../database/config.php';
   if(isset($_POST["submit"])){
+    $id = $_SESSION['id'];
     $name = $_POST["name"];
     if($_FILES["image"]["error"] == 4){
       echo
@@ -39,7 +40,7 @@
         $newImageName .= '.' . $imageExtension;
   
         move_uploaded_file($tmpName, '../img/upload/' . $newImageName);
-        $query = "INSERT INTO upload VALUES('', '$name', '$newImageName')";
+        $query = "INSERT INTO upload VALUES('', '$id', '$name', '$newImageName')";
         mysqli_query($conn, $query);
         echo
         "
@@ -239,7 +240,7 @@
                         <?php
                           $no = 1;
                           include '../database/config.php';
-                          $sql = "SELECT * FROM upload ORDER BY id DESC";
+                          $sql = "SELECT * FROM upload WHERE id=$_SESSION[id]";
                           $query = mysqli_query($conn, $sql);
                           foreach($query as $value) :
                         ?>
