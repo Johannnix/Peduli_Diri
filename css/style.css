@@ -368,3 +368,15 @@ ol {
 .modal-atas {
   padding: 16px 16px;
 }
+
+.tambah {
+  margin-left: 0.05rem;
+  font-size: 1.2rem;
+  margin-right: 0.2rem;
+  text-align: center;
+  width: 1.6rem;
+}
+
+.add {
+  width: 70px !important;
+}

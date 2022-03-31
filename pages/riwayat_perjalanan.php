@@ -77,6 +77,14 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="sertifikat.php" class="nav-link">
+                  <i class="nav-icon fa-solid fa-crutch"></i>
+                  <p>
+                    Sertifikat Vaksin
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="riwayat_perjalanan.php" class="nav-link">
                   <i class="nav-icon fa-solid fa-book-atlas"></i>
                   <p>

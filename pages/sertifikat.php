@@ -2,14 +2,61 @@
 
   session_start();
 
-  $url = file_get_contents('https://disease.sh/v3/covid-19/countries/indonesia');
-  $data = json_decode($url, true);
+  include '../database/config.php';
+  if(isset($_POST["submit"])){
+    $name = $_POST["name"];
+    if($_FILES["image"]["error"] == 4){
+      echo
+      "<script> alert('Image Does Not Exist'); </script>"
+      ;
+    }
+    else{
+      $fileName = $_FILES["image"]["name"];
+      $fileSize = $_FILES["image"]["size"];
+      $tmpName = $_FILES["image"]["tmp_name"];
+  
+      $validImageExtension = ['jpg', 'jpeg', 'png'];
+      $imageExtension = explode('.', $fileName);
+      $imageExtension = strtolower(end($imageExtension));
+      if ( !in_array($imageExtension, $validImageExtension) ){
+        echo
+        "
+        <script>
+          alert('Invalid Image Extension');
+        </script>
+        ";
+      }
+      else if($fileSize > 1000000){
+        echo
+        "
+        <script>
+          alert('Image Size Is Too Large');
+        </script>
+        ";
+      }
+      else{
+        $newImageName = uniqid();
+        $newImageName .= '.' . $imageExtension;
+  
+        move_uploaded_file($tmpName, '../img/upload/' . $newImageName);
+        $query = "INSERT INTO upload VALUES('', '$name', '$newImageName')";
+        mysqli_query($conn, $query);
+        echo
+        "
+        <script>
+          alert('Successfully Added');
+          document.location.href = 'sertifikat.php';
+        </script>
+        ";
+      }
+    }
+  }
 
   if ( (!isset($_SESSION['nik'])) && (!isset($_SESSION['nama'])) ) {
     echo "<script type='text/javascript'>alert('Sorry! You Are Not Logged In Yet.');
           document.location.href = 'login.php';</script>";
   }
-  
+
 ?>
 
 <!doctype html>
@@ -21,12 +68,8 @@
     
     <!-- Theme style -->
     <link href="../css/adminlte.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/responsive.bootstrap4.min.css">
-    
-    <!-- Swipper -->
-    <link rel="stylesheet" href="../css/swiper-bundle.min.css"/>
 
     <!-- Font Awesome -->
     <link href="../assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,7 +80,7 @@
     <!-- My CSS -->
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Dashboard | Peduli Diri</title>
+    <title>Sertifikat Vaksin | Peduli Diri</title>
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
   </head>
   <body class="hold-transition sidebar-mini">
@@ -54,7 +97,7 @@
       <aside class="main-sidebar sidebar-light-primary elevation-1">
         <!-- Brand Logo -->
         <a href="dashboard.php" class="brand-link">
-          <img src="../img/favicon.png" alt="Peduli Diri" class="brand-image img-circle " style="opacity: .8">
+          <img src="../img/favicon.png" alt="" class="brand-image img-circle " style="opacity: .8">
           <span class="nav-title brand-text font-weight-bold">Peduli Diri</span>
         </a>
 
@@ -122,6 +165,7 @@
         <!-- /.sidebar -->
       </aside>
 
+      <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -146,98 +190,73 @@
         <section class="content-header">
           <div class="row mx-1">
             <div class="col-sm-6">
-              <h1>Catatan Perjalanan</h1>
+              <h1>Sertifikat Vaksin</h1>
             </div>
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Sertifikat</li>
               </ol>
-            </div>
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-primary">
-                <div class="inner">
-                  <?php
-                    include '../database/config.php';
-                    $sql = "SELECT count(*) FROM catatan WHERE id='$_SESSION[id]'";
-                    $result = $conn->query($sql);
-                    while($row = mysqli_fetch_array($result)) {
-                      echo "<h3>".$row['count(*)']."</h3>";
-                  ?>
-                  <?php } ?>
-                  <p>Jumlah Catatan Perjalanan</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-map"></i>
-                </div>
-                <a href="riwayat_perjalanan.php" class="small-box-footer">Info lebih <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3><?= number_format($data['cases'], '0', '.', '.'); ?></h3>
-                  <p>Positif Corona di Indonesia</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person"></i>
-                </div>
-                <a href="https://www.worldometers.info/coronavirus/country/indonesia/" target="_blank" rel="noopener noreferrer" class="small-box-footer">Info lebih <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3><?= number_format($data['recovered'], '0', '.', '.'); ?></h3>
-                  <p>Sembuh Corona di Indonesia</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-medkit"></i>
-                </div>
-                <a href="https://www.worldometers.info/coronavirus/country/indonesia/" target="_blank" rel="noopener noreferrer" class="small-box-footer">Info lebih <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3><?= number_format($data['deaths'], '0', '.', '.'); ?></h3>
-                  <p>Kematian Corona di Indonesia</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person"></i>
-                </div>
-                <a href="https://www.worldometers.info/coronavirus/country/indonesia/" target="_blank" rel="noopener noreferrer" class="small-box-footer">Info lebih <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="row mx-1">
-            <div class="col">
-              <div class="swiper" style="height: 50vh;">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <a href="#">
-                      <img class="slide" src="../img/slide/1.jpg" alt="">
-                    </a>
-                  </div>
-                  <div class="swiper-slide">
-                    <a href="#">
-                      <img class="slide" src="../img/slide/2.jpg" alt="">
-                    </a>
-                  </div>
-                  <div class="swiper-slide">
-                    <a href="#">
-                      <img class="slide" src="../img/slide/3.jpg" alt="">
-                    </a>
-                  </div>
-                </div>
-                <div class="swiper-pagination slide-btn"></div>
-
-                <div class="swiper-button-prev slide-btn"></div>
-                <div class="swiper-button-next slide-btn"></div>
-              </div>
             </div>
           </div>
         </section>
+        <section class="content">
+          <div class="card mx-2">
+            <div class="card-header">
+              <h3 class="card-title">Sertifikat Vaksin</h3>
+            </div>
+            <div class="card-body">
+              <?php if (isset($_GET['sukses'])) { ?>
+                <div class="alert alert-success" role="alert">
+                  <?php echo $_GET['sukses'] ?>
+                </div>
+              <?php } ?>
+              <?php if (isset($_GET['gagal'])) { ?>
+                  <div class="alert alert-danger" role="alert">
+                    <?php echo $_GET['gagal'] ?>
+                  </div>
+                <?php } ?>
+                <div class="row">
+                  <div class="col-4">
+                    <form class="" action="" method="post" autocomplete="off" enctype="multipart/form-data">
+                      <label for="name">Name : </label>
+                      <input type="text" name="name" id = "name" required value=""> <br>
+                      <label for="image">Image : </label>
+                      <input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png" value=""> <br> <br>
+                      <button type = "submit" name = "submit" class="btn btn-secondary keluar add">Submit</button>
+                    </form>
+                  </div>
+                  <div class="col-8">
+                    <table class="table table-bordered table-striped mt-3">
+                      <thead>
+                        <tr class="text-center">
+                          <th>No</th>
+                          <th>Nama</th>
+                          <th>Sertifikat</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          $no = 1;
+                          include '../database/config.php';
+                          $sql = "SELECT * FROM upload ORDER BY id DESC";
+                          $query = mysqli_query($conn, $sql);
+                          foreach($query as $value) :
+                        ?>
+                        <tr>
+                          <td class="text-tengah align-middle"><?= $no++?></td>
+                          <td class="text-tengah align-middle"><?= $value["name"]?></td>
+                          <td class="text-tengah align-middle"><img src="../img/upload/<?= $value["image"]; ?>" width="200" title="<?= $value["image"] ?>" alt=""></td>
+                        </tr>
+                        <?php endforeach ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
       </div>
 
       <footer class="main-footer">
@@ -263,31 +282,27 @@
     <script src="../js/adminlte.min.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
     <script src="../js/dataTables.bootstrap4.min.js"></script>
-    <!-- Swipper -->
-    <script src="../js/swiper-bundle.min.js"></script>
-    <script>
-      var swiper = new Swiper('.swiper', {
-      // Optional parameters
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-
-      // If we need pagination
-      pagination: {
-        el: '.swiper-pagination',
-      },
-
-      // Navigation arrows
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-    </script>
     <!-- <script src="js/demo.js"></script> -->
+    <script>
+      function numericOnly(event) {
+        var key = event.keyCode;
+        return ((key >= 48 && key <= 57) || key == 8 || key == 190);
+      };
+
+      function alphaOnly(event) {
+        var key = event.keyCode;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32);
+      };
+    </script>
+    <script>
+      $(function () {
+        $("#example1").DataTable({
+          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+          // "responsive": true, "lengthChange": false, "autoWidth": false,
+          // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      });
+    </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

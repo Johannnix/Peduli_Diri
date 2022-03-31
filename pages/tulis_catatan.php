@@ -77,6 +77,14 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="sertifikat.php" class="nav-link">
+                  <i class="nav-icon fa-solid fa-crutch"></i>
+                  <p>
+                    Sertifikat Vaksin
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="riwayat_perjalanan.php" class="nav-link">
                   <i class="nav-icon fa-solid fa-book-atlas"></i>
                   <p>
@@ -156,13 +164,13 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Tanggal</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="date" name="tanggal" required>
+                    <input readonly type="date" class="form-control" id="date" name="tanggal" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Jam</label>
                   <div class="col-sm-10">
-                    <input step="1" type="time" class="form-control" id="jam" name="jam" required>
+                    <input readonly step="1" type="time" class="form-control" id="jam" name="jam" required>
                   </div>
                 </div>
                 <div class="form-group row">

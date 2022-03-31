@@ -158,13 +158,13 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Tanggal</label>
                   <div class="col-sm-10">
-                    <input value="<?= $value['tanggal']; ?>" type="date" class="form-control" name="tanggal" required>
+                    <input readonly value="<?= $value['tanggal']; ?>" type="date" class="form-control" name="tanggal" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Jam</label>
                   <div class="col-sm-10">
-                    <input value="<?= $value['jam']; ?>" step="1" type="time" class="form-control" name="jam" required>
+                    <input readonly value="<?= $value['jam']; ?>" step="1" type="time" class="form-control" name="jam" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -214,12 +214,6 @@
     <script src="../js/jquery.dataTables.min.js"></script>
     <script src="../js/dataTables.bootstrap4.min.js"></script>
     <!-- <script src="js/demo.js"></script> -->
-    <script>
-      $(document).ready(function() {
-        let now = new Date();
-        $('#jam').val(now.getHours()+":"+ now.getMinutes());
-      });
-    </script>
     <script>
       var date = new Date();
       var day = date.getDate();
