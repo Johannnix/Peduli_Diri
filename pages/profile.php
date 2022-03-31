@@ -180,9 +180,15 @@
                     <div class="form-group">
                       <label>Jenis Kelamin</label>
                       <select name="jenkel" class="form-control form selectric input">
-                        <option selected=""><?= $data['jenkel']; ?></option>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
+                        <?php 
+                          if ($data['jenkel'] == 'Laki-laki') {?>
+                            <option selected value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                          <?php }else{ ?>
+                              <option selected value="Perempuan">Perempuan</option>
+                              <option value="Laki-laki">Laki-laki</option>
+                          <?php }
+                        ?>
                       </select>
                     </div>
                     <div class="form-group">
