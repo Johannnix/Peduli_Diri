@@ -217,18 +217,26 @@
                     <?php echo $_GET['gagal'] ?>
                   </div>
                 <?php } ?>
-                <div class="row">
+                <div class="row d-flex justify-content-between">
                   <div class="col-4">
                     <form class="" action="" method="post" autocomplete="off" enctype="multipart/form-data">
-                      <label for="name">Name : </label>
-                      <input type="text" name="name" id = "name" required value=""> <br>
-                      <label for="image">Image : </label>
-                      <input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png" value=""> <br> <br>
+                      <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nama</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama File" autofocus required>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Image</label>
+                        <div class="col-sm-10">
+                          <input type="file" id="image" name="image" required accept=".jpg, .jpeg, .png">
+                        </div>
+                      </div>
                       <button type = "submit" name = "submit" class="btn btn-secondary keluar add">Submit</button>
                     </form>
                   </div>
-                  <div class="col-8">
-                    <table class="table table-bordered table-striped mt-3">
+                  <div class="col-7">
+                    <table class="table table-bordered table-striped">
                       <thead>
                         <tr class="text-center">
                           <th>No</th>
