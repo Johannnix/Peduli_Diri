@@ -223,7 +223,10 @@
                       <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Nama</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama File" autofocus required>
+                          <select class="form-control" id="name" name="name">
+                            <option value="Dosis 1">Dosis 1</option>
+                            <option value="Dosis 2">Dosis 2</option>
+                          </select>
                         </div>
                       </div>
                       <div class="form-group row">

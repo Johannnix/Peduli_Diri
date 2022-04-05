@@ -4507,7 +4507,7 @@ input[type='submit'].btn-block {
   flex: 1 1 auto;
   min-height: 1px;
   padding: 1.25rem;
-  color: #49506B;
+  color: #49506b;
 }
 .card-title {
   margin-bottom: 0.75rem;
@@ -4998,7 +4998,7 @@ a.badge-dark:focus {
 .alert-success {
   color: #0f5132;
   background-color: #d1e7dd;
-  border-color: #badbcc;
+  /* border-color: #badbcc; */
 }
 .alert-success hr {
   border-top-color: #b1dfbb;
@@ -5031,7 +5031,7 @@ a.badge-dark:focus {
 .alert-danger {
   color: #842029;
   background-color: #f8d7da;
-  border-color: #f5c2c7;
+  /* border-color: #f5c2c7; */
 }
 .alert-danger hr {
   border-top-color: #f1b0b7;
@@ -9277,7 +9277,7 @@ button.bg-dark:hover {
 }
 .text-center {
   text-align: center !important;
-  color: #49506B !important;
+  color: #49506b !important;
 }
 @media (min-width: 576px) {
   .text-sm-left {
@@ -10842,7 +10842,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 .main-footer {
   background-color: #fcfcfc;
-    /* border-top: 1px solid #dee2e6; */
+  /* border-top: 1px solid #dee2e6; */
   color: #869099;
   padding: 1rem;
 }

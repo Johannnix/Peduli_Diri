@@ -380,3 +380,13 @@ ol {
 .add {
   width: 70px !important;
 }
+
+.alert-danger {
+  background: rgba(227, 50, 76, 0.3) !important;
+  color: #e3324c !important;
+}
+
+.alert-success {
+  background: rgba(50, 180, 50, 0.3) !important;
+  color: #32b432 !important;
+}
