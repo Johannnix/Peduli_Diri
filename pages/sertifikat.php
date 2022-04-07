@@ -5,11 +5,9 @@
   include '../database/config.php';
   if(isset($_POST["submit"])){
     $id = $_SESSION['id'];
-    $name = $_POST["name"];
+    // $name = $_POST["name"];
     if($_FILES["image"]["error"] == 4){
-      echo
-      "<script> alert('Image Does Not Exist'); </script>"
-      ;
+      header("Location: sertifikat.php?gagal=Gambar Tidak Ada.");
     }
     else{
       $fileName = $_FILES["image"]["name"];
@@ -20,35 +18,19 @@
       $imageExtension = explode('.', $fileName);
       $imageExtension = strtolower(end($imageExtension));
       if ( !in_array($imageExtension, $validImageExtension) ){
-        echo
-        "
-        <script>
-          alert('Invalid Image Extension');
-        </script>
-        ";
+        header("Location: sertifikat.php?gagal=Ekstensi Gambar Tidak Valid.");
       }
-      else if($fileSize > 1000000){
-        echo
-        "
-        <script>
-          alert('Image Size Is Too Large');
-        </script>
-        ";
+      else if($fileSize > 2000000){
+        header("Location: sertifikat.php?gagal=Ukuran Gambar Terlalu Besar.");
       }
       else{
         $newImageName = uniqid();
         $newImageName .= '.' . $imageExtension;
   
         move_uploaded_file($tmpName, '../img/upload/' . $newImageName);
-        $query = "INSERT INTO upload VALUES('', '$id', '$name', '$newImageName')";
+        $query = "INSERT INTO upload VALUES('', '$id', '', '$newImageName')";
         mysqli_query($conn, $query);
-        echo
-        "
-        <script>
-          alert('Successfully Added');
-          document.location.href = 'sertifikat.php';
-        </script>
-        ";
+        header("Location: sertifikat.php?sukses=Berhasil Ditambahkan.");
       }
     }
   }
@@ -71,6 +53,9 @@
     <link href="../css/adminlte.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/responsive.bootstrap4.min.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="../css/magnific-popup.css">
 
     <!-- Font Awesome -->
     <link href="../assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -218,52 +203,73 @@
                   </div>
                 <?php } ?>
                 <div class="row d-flex justify-content-between">
-                  <div class="col-4">
-                    <form class="" action="" method="post" autocomplete="off" enctype="multipart/form-data">
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Nama</label>
-                        <div class="col-sm-10">
-                          <select class="form-control" id="name" name="name">
-                            <option value="Dosis 1">Dosis 1</option>
-                            <option value="Dosis 2">Dosis 2</option>
-                          </select>
+                  <div class="col-8">
+                    <div class="row">
+                      <?php
+                        include '../database/config.php';
+                        $sql = "SELECT * FROM upload WHERE id=$_SESSION[id]";
+                        $query = mysqli_query($conn, $sql);
+                        $count = mysqli_num_rows($query);
+                        foreach($query as $value) :
+                      ?>
+                      <div class="col-md-4">
+                        <img src="../img/upload/<?= $value["image"]; ?>" alt="" class="sertif img-fluid">
+                        <div class="d-area d-flex justify-content-end">
+                          <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle detail" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item" href="../img/upload/<?= $value["image"]; ?>" download="Certificate">Unduh</a></li>
+                              <li><a class="dropdown-item sertifikat" href="../img/upload/<?= $value["image"]; ?>">Lihat</a></li>
+                              <li><a class="dropdown-item" href="../database/hapus_sertifikat.php?no=<?= $value['no']?>">Hapus</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="t-area d-flex align-content-center flex-wrap">
+                          <div class="text-box d-flex align-content-center flex-wrap">
+                            <span class="judul-serti d-flex align-content-center flex-wrap">Sertifikat</span>
+                          </div>
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Image</label>
-                        <div class="col-sm-10">
-                          <input type="file" id="image" name="image" required accept=".jpg, .jpeg, .png">
-                        </div>
+                      <?php endforeach ?>
+                    </div>
+                  </div>
+                  <?php
+                    if ($count < 3) { ?>
+                      <div class="col-4">
+                        <form class="" action="" method="post" autocomplete="off" enctype="multipart/form-data">
+                          <div class="form-group row d-flex justify-content-end">
+                            <div class="col-sm-10 ">
+                              <div class="form-group">
+                                <div class="m-1 text-danger text-small">*Max upload gambar 2MB</div>
+                                <div class="custom-file mb-2">
+                                  <input type="file" name="image" required accept=".jpg, .jpeg, .png" class="custom-file-input" id="customFile">
+                                  <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <button type="submit" name="submit" class="btn btn-secondary keluar add upload">Upload</button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
                       </div>
-                      <button type = "submit" name = "submit" class="btn btn-secondary keluar add">Submit</button>
-                    </form>
-                  </div>
-                  <div class="col-7">
-                    <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr class="text-center">
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Sertifikat</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          $no = 1;
-                          include '../database/config.php';
-                          $sql = "SELECT * FROM upload WHERE id=$_SESSION[id]";
-                          $query = mysqli_query($conn, $sql);
-                          foreach($query as $value) :
-                        ?>
-                        <tr>
-                          <td class="text-tengah align-middle"><?= $no++?></td>
-                          <td class="text-tengah align-middle"><?= $value["name"]?></td>
-                          <td class="text-tengah align-middle"><img src="../img/upload/<?= $value["image"]; ?>" width="200" title="<?= $value["image"] ?>" alt=""></td>
-                        </tr>
-                        <?php endforeach ?>
-                      </tbody>
-                    </table>
-                  </div>
+                  <?php }else{ ?>
+                    <div class="col-4 hilang">
+                      <form class="" action="" method="post" autocomplete="off" enctype="multipart/form-data">
+                        <div class="form-group row d-flex justify-content-end">
+                          <div class="col-sm-10 ">
+                            <div class="form-group">
+                              <div class="custom-file mb-2">
+                                <input type="file" name="image" required accept=".jpg, .jpeg, .png" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                              </div>
+                              <button type="submit" name="submit" class="btn btn-secondary keluar add upload">Upload</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  <?php } ?>
                 </div>
             </div>
           </div>
@@ -292,9 +298,9 @@
     <script src="../assets/sweetalert/sweetalert2.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../js/adminlte.min.js"></script>
-    <script src="../js/jquery.dataTables.min.js"></script>
-    <script src="../js/dataTables.bootstrap4.min.js"></script>
-    <!-- <script src="js/demo.js"></script> -->
+    <script src="../js/bs-custom-file-input.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="../js/jquery.magnific-popup.js"></script>
     <script>
       function numericOnly(event) {
         var key = event.keyCode;
@@ -313,6 +319,17 @@
           // "responsive": true, "lengthChange": false, "autoWidth": false,
           // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      });
+    </script>
+    <script>
+      $(function () {
+        bsCustomFileInput.init();
+      });
+    </script>
+    <script>
+      $(document).ready(function() {
+        $('.sertifikat').magnificPopup({
+          type:'image'});
       });
     </script>
 

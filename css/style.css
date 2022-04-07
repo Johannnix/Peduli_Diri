@@ -27,7 +27,7 @@ h5 {
   font-size: 1.25rem;
 }
 
-label {
+.label {
   font-weight: 900;
   color: #34395e;
   font-size: 12px;
@@ -389,4 +389,71 @@ ol {
 .alert-success {
   background: rgba(50, 180, 50, 0.3) !important;
   color: #32b432 !important;
+}
+
+.img-serti {
+  cursor: pointer;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.base-serti {
+  cursor: pointer;
+}
+
+.upload{
+  height: calc(2.25rem + 2px) !important;
+  width: 100% !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+.sertif{
+  border-radius: 5px !important;
+}
+
+.dropdown-menu.show{
+  padding: 5px 0 !important;
+  font-size: 12px !important;
+}
+
+.dropdown-toggle::after{
+  display: none !important;
+}
+
+.detail{
+  width: 2rem;
+  margin: 0 !important;
+  padding: 4.8px 4.8px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  background-color: #5ec5c4;
+}
+
+.detail:focus{
+  background-color: #5ec5c4;
+}
+
+.text-box{
+  margin-top: -27px;
+  height: 27px;
+  background-color: #5ec5c4;
+  padding: 4px 8px !important;
+  border-bottom-left-radius: 5px;
+}
+
+.judul-serti{
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 400 !important;
+}
+
+.d-area{
+  margin-top: -27.5px;
+}
+
+.hilang{
+  display: none !important;
 }

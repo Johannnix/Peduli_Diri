@@ -95,11 +95,11 @@
                 </div>
                 <?php } ?>
                 <div class="form-group">
-                  <label for="nik">NIK</label>
+                  <label class="label" for="nik">NIK</label>
                   <input minlength="16" maxlength="16" placeholder="Masukkan dengan angka" type="text" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
                 </div>
                 <div class="form-group pt-4">
-                  <label for="nama" class="d-block">Nama</label>
+                  <label class="label" for="nama" class="d-block">Nama</label>
                   <input id="nama" placeholder="Masukkan dengan huruf" type="text" name="nama" class="form-control form" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                 </div>
                 <div class="form-group text-center pt-4">

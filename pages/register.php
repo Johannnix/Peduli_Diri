@@ -115,16 +115,16 @@
                 </div>
                 <?php } ?>
                 <div class="form-group px-2">
-                    <label for="nik">NIK</label>
+                    <label class="label" for="nik">NIK</label>
                     <input minlength="16" maxlength="16" placeholder="Masukkan dengan angka" type="text" value="" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
                     <div class="m-1 text-danger text-small">*harap masukkan nik dengan benar!</div>
                   </div>              
                   <div class="form-group px-2 pt-4">
-                    <label for="nama">Nama Lengkap</label>
+                    <label class="label" for="nama">Nama Lengkap</label>
                     <input type="name" value="" placeholder="Masukkan dengan huruf" class="form-control form" name="nama" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                   </div>
                   <div class="form-group px-2 pt-4">
-                    <label for="jenkel">Jenis Kelamin</label>
+                    <label class="label" for="jenkel">Jenis Kelamin</label>
                       <select name="jenkel" class="form-control form selectric " required="" autofocus="">
                         <option disabled="" selected="">--Pilih Jenis Kelamin--</option>
                         <option value="Laki-laki">Laki-laki</option>
@@ -132,7 +132,7 @@
                       </select>
                   </div>
                   <div class="form-group px-2 pt-4 has-error">
-                    <label for="alamat">Alamat</label>
+                    <label class="label" for="alamat">Alamat</label>
                     <input type="text" value="" placeholder="Masukkan alamat" class="form-control form" name="alamat" autofocus="" required="" autocomplete="off"></input>
                   </div>
                   <div class="form-group text-center pt-4">
