@@ -26,7 +26,6 @@
       else{
         $newImageName = uniqid();
         $newImageName .= '.' . $imageExtension;
-  
         move_uploaded_file($tmpName, '../img/upload/' . $newImageName);
         $query = "INSERT INTO upload VALUES('', '$id', '', '$newImageName')";
         mysqli_query($conn, $query);

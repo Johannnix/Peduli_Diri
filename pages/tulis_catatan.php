@@ -164,13 +164,13 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Tanggal</label>
                   <div class="col-sm-10">
-                    <input readonly type="date" class="form-control" id="date" name="tanggal" required>
+                    <input type="date" class="form-control" id="date" name="tanggal" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Pilih Jam</label>
                   <div class="col-sm-10">
-                    <input readonly step="1" type="time" class="form-control" id="jam" name="jam" required>
+                    <input step="1" type="time" class="form-control" id="jam" name="jam" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -229,6 +229,7 @@
     <script>
       var date = new Date();
       var day = date.getDate();
+      var minday = date.getDate() - 2;
       var month = date.getMonth() + 1;
       var year = date.getFullYear();
       var hour = date.getHours();
@@ -237,11 +238,15 @@
       
       if (month < 10) month = "0" + month;
       if (day < 10) day = "0" + day;
+      if (minday < 10) minday = "0" + minday;
       if (hour < 10) hour = "0" + hour;
       if (minute < 10) minute = "0" + minute;
 
       var today = year + "-" + month + "-" + day;
+      var minday = year + "-" + month + "-" + minday;
       var time = hour + ":" + minute + ":" + seconds;
+      document.getElementById('date').setAttribute("max", today);
+      document.getElementById('date').setAttribute("min", minday);
       document.getElementById('date').value = today;
       document.getElementById('jam').value = time;
 

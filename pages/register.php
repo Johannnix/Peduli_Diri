@@ -19,14 +19,20 @@
   if (isset($_POST['submit'])) {
     $nik = $_POST['nik'];
     $nama = $_POST['nama'];
+    $email = $_POST['email'];
     $jenkel = $_POST['jenkel'];
     $alamat = $_POST['alamat'];
+    $telp = $_POST['telepon'];
+    $pass = md5($_POST['password']);
   }
 
   if (empty($nik)) { array_push($errors, "NIK diperlukan"); }
   if (empty($nama)) { array_push($errors, "Nama diperlukan"); }
+  if (empty($email)) { array_push($errors, "Email diperlukan"); }
   if (empty($alamat)) { array_push($errors, "Alamat diperlukan"); }
   if (empty($jenkel)) { array_push($errors, "Jenis Kelamin diperlukan"); }
+  if (empty($telp)) { array_push($errors, "Telepon diperlukan"); }
+  if (empty($pass)) { array_push($errors, "Password diperlukan"); }
 
   $user_check_query = "SELECT * FROM pengguna WHERE nik='$nik'";
   $result = mysqli_query($conn, $user_check_query);
@@ -39,15 +45,11 @@
   }
 
   if (count($errors) == 0) {
-    $sql = "INSERT INTO pengguna (nik, nama, alamat, jenkel)
-            VALUES ('$nik', '$nama', '$alamat', '$jenkel')";
+    $sql = "INSERT INTO pengguna (nik, nama, alamat, jenkel, pass, email, telepon)
+            VALUES ('$nik', '$nama', '$alamat', '$jenkel', '$pass', '$email', '$telp')";
     $result = mysqli_query($conn, $sql);
     if ($result) {
         header("Location: login.php?sukses=Pendaftaran Pengguna Berhasil.");
-        $nik = "";
-        $nama = "";
-        $alamat = "";
-        $jenkel = "";
     }else{
         header("Location: register.php");
     }
@@ -124,6 +126,10 @@
                     <input type="name" value="" placeholder="Masukkan dengan huruf" class="form-control form" name="nama" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                   </div>
                   <div class="form-group px-2 pt-4">
+                    <label class="label" for="email">Email</label>
+                    <input type="email" value="" placeholder="Masukkan email" class="form-control form" name="email" required="" autofocus="" autocomplete="off">
+                  </div>
+                  <div class="form-group px-2 pt-4">
                     <label class="label" for="jenkel">Jenis Kelamin</label>
                       <select name="jenkel" class="form-control form selectric " required="" autofocus="">
                         <option disabled="" selected="">--Pilih Jenis Kelamin--</option>
@@ -134,6 +140,14 @@
                   <div class="form-group px-2 pt-4 has-error">
                     <label class="label" for="alamat">Alamat</label>
                     <input type="text" value="" placeholder="Masukkan alamat" class="form-control form" name="alamat" autofocus="" required="" autocomplete="off"></input>
+                  </div>
+                  <div class="form-group px-2 pt-4 has-error">
+                    <label class="label" for="telepon">Telepon</label>
+                    <input minlength="12" maxlength="12" placeholder="Masukkan telepon" type="text" value="" class="form-control form" name="telepon" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
+                  </div>
+                  <div class="form-group px-2 pt-4 has-error">
+                    <label class="label" for="password">Password</label>
+                    <input type="password" value="" placeholder="Masukkan password" class="form-control form" name="password" autofocus="" required="" autocomplete="off"></input>
                   </div>
                   <div class="form-group text-center pt-4">
                     <button onclick="return confirm('Apakah data Anda sudah benar ?')" type="submit" name="submit" class="btn btn-primary button btn-lg col-6">Daftar</button>

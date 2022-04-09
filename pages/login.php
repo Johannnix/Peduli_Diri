@@ -102,6 +102,10 @@
                   <label class="label" for="nama" class="d-block">Nama</label>
                   <input id="nama" placeholder="Masukkan dengan huruf" type="text" name="nama" class="form-control form" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                 </div>
+                <div class="form-group pt-4">
+                  <label class="label" for="password" class="d-block">Password</label>
+                  <input id="password" placeholder="Masukkan password" type="password" name="password" class="form-control form" required="" autofocus="" autocomplete="off">
+                </div>
                 <div class="form-group text-center pt-4">
                   <button type="submit" name="submit" class="login btn btn-primary button btn-lg btn-block">Masuk</button>
                 </div>
