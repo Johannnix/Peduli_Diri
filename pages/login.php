@@ -111,6 +111,9 @@
                 </div>
               </form>
               <div class="text-center pt-4">
+                <a class="p-1 link" href="#">Lupa Password?</a>
+              </div>
+              <div class="text-center">
                 Belum punya akun?
                 <a class="p-1 link" href="register.php">Daftar</a>
               </div>
