@@ -176,7 +176,7 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Suhu Tubuh</label>
                   <div class="col-sm-10">
-                    <input value="<?= $value['suhu']; ?>" type="text" class="form-control" name="suhu" onkeydown="return numericOnly(event)" required placeholder="Masukkan Suhu Tubuh (°C)">
+                    <input value="<?= $value['suhu']; ?>" type="text" class="form-control" name="suhu" maxlength="4" onkeydown="return numericOnly(event)" required placeholder="Masukkan Suhu Tubuh (°C)">
                   </div>
                 </div>
               </div>
