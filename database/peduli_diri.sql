@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Apr 2022 pada 17.11
+-- Waktu pembuatan: 15 Apr 2022 pada 06.39
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.1.1
 
@@ -47,15 +47,20 @@ CREATE TABLE `pengguna` (
   `nik` bigint(16) NOT NULL,
   `nama` varchar(25) NOT NULL,
   `alamat` text NOT NULL,
-  `jenkel` varchar(10) NOT NULL
+  `jenkel` varchar(10) NOT NULL,
+  `pass` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `telepon` varchar(12) NOT NULL,
+  `code` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `pengguna`
 --
 
-INSERT INTO `pengguna` (`id`, `nik`, `nama`, `alamat`, `jenkel`) VALUES
-(19, 5306032706050003, 'Johan Hadi Winarto', 'Tongaskulon, Tongas, Probolinggo, Jawa Timur.', 'Laki-laki');
+INSERT INTO `pengguna` (`id`, `nik`, `nama`, `alamat`, `jenkel`, `pass`, `email`, `telepon`, `code`) VALUES
+(19, 5306032706050003, 'Johan Hadi Winarto', 'Tongaskulon, Tongas, Probolinggo, Jawa Timur.', 'Laki-laki', '', '', '', ''),
+(40, 1111111111111111, 'Johan', 'Tongas', 'Laki-laki', '202cb962ac59075b964b07152d234b70', 'johannnix243@gmail.com', '082125220349', '');
 
 -- --------------------------------------------------------
 
@@ -102,19 +107,19 @@ ALTER TABLE `upload`
 -- AUTO_INCREMENT untuk tabel `catatan`
 --
 ALTER TABLE `catatan`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT untuk tabel `upload`
 --
 ALTER TABLE `upload`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

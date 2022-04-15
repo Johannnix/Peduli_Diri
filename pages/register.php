@@ -1,16 +1,33 @@
 <?php
+  //Import PHPMailer classes into the global namespace
+  //These must be at the top of your script, not inside a function
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\SMTP;
+  use PHPMailer\PHPMailer\Exception;
+
+  //Load Composer's autoloader
+  require '../vendor/autoload.php';
 
   include '../database/config.php';
 
   session_start();
 
-  error_reporting(0);
-
   $nik    = "";
   $nama   = "";
   $alamat = "";
   $jenkel = "";
-  $errors = array(); 
+  $errors = array();
+
+  $dotenv = Dotenv\Dotenv::createImmutable("../");
+  $dotenv->load();
+
+  $username = getenv('mailUsername');
+  $username = $_ENV['mailUsername'];
+  $username = $_SERVER['mailUsername'];
+
+  $password = getenv('mailPassword');
+  $password = $_ENV['mailPassword'];
+  $password = $_SERVER['mailPassword'];
 
   if ( (isset($_SESSION['nik'])) && (isset($_SESSION['nama'])) ) {
     header("Location: dashboard.php");
@@ -24,6 +41,7 @@
     $alamat = $_POST['alamat'];
     $telp = $_POST['telepon'];
     $pass = md5($_POST['password']);
+    $code = md5(rand());
   }
 
   if (empty($nik)) { array_push($errors, "NIK diperlukan"); }
@@ -39,17 +57,50 @@
   $user = mysqli_fetch_assoc($result);
   if ($user) { // if user exists
     if ($user['nik'] === $nik) {
-        array_push($errors, "NIK already exists");
-        header("Location: register.php?gagal=NIK Sudah Terdaftar.");
+      array_push($errors, "NIK already exists");
+      header("Location: register.php?gagal=NIK Sudah Terdaftar.");
+    } elseif ($user['email'] === $email) {
+      array_push($errors, "Email already exists");
+      header("Location: register.php?gagal=Email Sudah Terdaftar.");
     }
   }
 
   if (count($errors) == 0) {
-    $sql = "INSERT INTO pengguna (nik, nama, alamat, jenkel, pass, email, telepon)
-            VALUES ('$nik', '$nama', '$alamat', '$jenkel', '$pass', '$email', '$telp')";
+    $sql = "INSERT INTO pengguna (nik, nama, alamat, jenkel, pass, email, telepon, code)
+            VALUES ('$nik', '$nama', '$alamat', '$jenkel', '$pass', '$email', '$telp', '$code')";
     $result = mysqli_query($conn, $sql);
     if ($result) {
-        header("Location: login.php?sukses=Pendaftaran Pengguna Berhasil.");
+      echo "<div style='display: none;'>";
+      //Create an instance; passing `true` enables exceptions
+      $mail = new PHPMailer(true);
+
+      try {
+          //Server settings
+          $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+          $mail->isSMTP();                                            //Send using SMTP
+          $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+          $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+          $mail->Username   = $username;                     //SMTP username
+          $mail->Password   = $password;                               //SMTP password
+          $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+          $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+          //Recipients
+          $mail->setFrom($username);
+          $mail->addAddress($email);
+
+          //Content
+          $mail->isHTML(true);                                  //Set email format to HTML
+          $mail->Subject = 'no reply';
+          $mail->Body    = 'Here is the verification link <b><a href="http://localhost:8080/peduli_diri/pages/login.php?verification='.$code.'">http://localhost:8080/peduli_diri/pages/login.php?verification='.$code.'</a></b>';
+
+          $mail->send();
+          echo 'Message has been sent';
+      } catch (Exception $e) {
+          echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+      }
+      echo "</div>";
+      header("Location: login.php?sukses=Kami telah mengirimkan link verifikasi ke alamat email Anda.");
     }else{
         header("Location: register.php");
     }
@@ -111,11 +162,6 @@
               <div class="card-header"><h3>Daftar Peduli Diri</h3></div>
               <div class="card-body">
                 <form method="POST" action="register.php" class="form-group needs-validation" novalidate>
-                <?php if (isset($_GET['gagal'])) { ?>
-                <div class="alert alert-danger" role="alert">
-                  <?php echo $_GET['gagal'] ?>
-                </div>
-                <?php } ?>
                 <div class="form-group px-2">
                     <label class="label" for="nik">NIK</label>
                     <input minlength="16" maxlength="16" placeholder="Masukkan dengan angka" type="text" value="" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">

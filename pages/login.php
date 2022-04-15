@@ -8,21 +8,37 @@
     header("Location: dashboard.php");
   }
 
-  if (isset($_POST['submit'])) {
-    $nik = $_POST['nik'];
-    $nama = $_POST['nama'];
+  if (isset($_GET['verification'])) {
+    if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM pengguna WHERE code='{$_GET['verification']}'")) > 0) {
+      $query = mysqli_query($conn, "UPDATE pengguna SET code='' WHERE code='{$_GET['verification']}'");
+      if ($query) {
+        $msg = "Verifikasi akun telah berhasil dilakukan.";
+      }
+    } else {
+      header("Location: login.php");
+    }
+}
 
-    $sql = "SELECT * FROM pengguna WHERE nik='$nik' AND nama='$nama'";
+  if (isset($_POST['submit'])) {
+    $nama = $_POST['nama'];
+    $pass = md5($_POST['password']);
+    $sql = "SELECT * FROM pengguna WHERE nama='$nama' AND pass='$pass'";
     $result = mysqli_query($conn, $sql);
-    if($result->num_rows > 0){
-        $row = mysqli_fetch_assoc($result);
+
+    if(mysqli_num_rows($result) === 1){
+      $row = mysqli_fetch_assoc($result);
+
+      if (empty($row['code'])) {
         $_SESSION['id'] = $row['id'];
         $_SESSION['nik'] = $row['nik'];
         $_SESSION['nama'] = $row['nama'];
         header("Location: dashboard.php");
+      } else {
+        header("Location: login.php?verify=Verifikasi akun Anda terlebih dahulu dan coba lagi.");
+      }
+
     }else{
-        // echo "<script>alert('Woops! NIK or Name is Wrong.')</script>";
-        header("Location: login.php?gagal=NIK Atau Nama Salah.");
+      header("Location: login.php?gagal=Nama Atau Password Anda Salah.");
     }
   }
 
@@ -89,16 +105,26 @@
                   <?php echo $_GET['sukses'] ?>
                 </div>
                 <?php } ?>
+                <?php if (isset($_GET['verification'])) { ?>
+                <div class="alert alert-success" role="alert">
+                  <?php echo $msg ?>
+                </div>
+                <?php } ?>
+                <?php if (isset($_GET['verify'])) { ?>
+                <div class="alert alert-info" role="alert">
+                  <?php echo $_GET['verify'] ?>
+                </div>
+                <?php } ?>
                 <?php if (isset($_GET['gagal'])) { ?>
                 <div class="alert alert-danger" role="alert">
                   <?php echo $_GET['gagal'] ?>
                 </div>
                 <?php } ?>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label class="label" for="nik">NIK</label>
                   <input minlength="16" maxlength="16" placeholder="Masukkan dengan angka" type="text" class="form-control form" name="nik" required="" autofocus="" onkeydown="return numericOnly(event)" autocomplete="off">
-                </div>
-                <div class="form-group pt-4">
+                </div> -->
+                <div class="form-group">
                   <label class="label" for="nama" class="d-block">Nama</label>
                   <input id="nama" placeholder="Masukkan dengan huruf" type="text" name="nama" class="form-control form" required="" autofocus="" onkeydown="return alphaOnly(event)" autocomplete="off">
                 </div>
@@ -111,7 +137,7 @@
                 </div>
               </form>
               <div class="text-center pt-4">
-                <a class="p-1 link" href="#">Lupa Password?</a>
+                <a class="p-1 link" href="user/forgot_password.php">Lupa Password?</a>
               </div>
               <div class="text-center">
                 Belum punya akun?

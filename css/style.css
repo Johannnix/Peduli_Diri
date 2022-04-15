@@ -391,6 +391,11 @@ ol {
   color: #32b432 !important;
 }
 
+.alert-info{
+  background: rgba(122, 191, 254, 1) !important;
+  color: #0174de !important;
+}
+
 .img-serti {
   cursor: pointer;
   border-top-left-radius: 0.25rem;
